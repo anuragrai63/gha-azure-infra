@@ -7,8 +7,7 @@ This project aims to provide a complete Infrastructure-as-Code (IaC) solution le
 This project is designed following a hub-and-spoke topology which includes:
 - **Hub VNet**: Serves as the central point of communication.
 - **Spoke VNet 1**: Dedicated for application workloads.
-- **Spoke VNet 2**: Used for database workloads.
-- **Spoke VNet 3**: Specially designed for services.
+- **Spoke VNet 2**: Used for database workloads..
 
 ## ⚙️ Complete Setup Instructions
 1. **Setup Azure Service Principal**  
@@ -53,8 +52,6 @@ This project is designed following a hub-and-spoke topology which includes:
 ## 🗂️ Project Structure  
 ```
 |- /terraform            # Root directory
-|- /modules              # Terraform modules
-|- /scripts              # Helper scripts
 |- README.md             # Project documentation
 ```
 
