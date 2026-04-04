@@ -1,4 +1,4 @@
-# 🛠️ Infrastructure-as-Code Project
+## 🛠️ Infrastructure-as-Code Project
 
 ## 🎯 Purpose
 This project aims to provide a complete Infrastructure-as-Code (IaC) solution leveraging Azure and Terraform. This setup is intended to automate the provisioning of infrastructure components, improving efficiency, consistency, and repeatability.
