@@ -85,11 +85,8 @@ This project is designed following a hub-and-spoke topology which includes:
 - Fork the repository, make changes, and submit a pull request.
 - Follow the code of conduct.
 
-## ⚠️ Disclaimer
-Use at your own risk. This solution comes with no warranties.
+
 
 ## 🙌 Support Information
 For support, open an issue in the GitHub repository or contact the project maintainer.
 
-## 📄 License
-This project is licensed under the MIT License.
