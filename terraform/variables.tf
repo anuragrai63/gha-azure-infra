@@ -1,7 +1,7 @@
 variable "resource_group_name" {
   type        = string
   description = "Name of the existing Resource Group"
-  default     = "1-78ca121a-playground-sandbox"
+  default     = "1-b42279d0-playground-sandbox"
   }
 
 variable "location" {
