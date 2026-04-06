@@ -1,13 +1,13 @@
 variable "resource_group_name" {
   type        = string
   description = "Name of the existing Resource Group"
-  default     = "1-b42279d0-playground-sandbox"
+  default     = "1-9afd2763-playground-sandbox"
   }
 
 variable "location" {
   type        = string
   description = "Azure Region"
-  default     = "westus"
+  default     = "easttus"
 }
 
 variable "admin_username" {
