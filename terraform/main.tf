@@ -10,7 +10,7 @@ data "azurerm_resource_group" "rg" {
 # =========================================================================
 resource "azurerm_virtual_network" "hub_vnet" {
   name                = "vnet-hub"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   address_space       = ["10.0.0.0/23"]
 }
@@ -25,13 +25,13 @@ resource "azurerm_subnet" "hub_subnet" {
 
 resource "azurerm_network_security_group" "hub_nsg" {
   name                = "vnet-hub-snet-1-nsg"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_route_table" "hub_rt" {
   name                = "vnet-hub-snet-1-rt"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
@@ -55,7 +55,7 @@ resource "azurerm_subnet" "bastion_subnet" {
 
 resource "azurerm_public_ip" "bastion_pip" {
   name                = "BastionPIP"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
@@ -63,7 +63,7 @@ resource "azurerm_public_ip" "bastion_pip" {
 
 resource "azurerm_bastion_host" "bastion" {
   name                = "bastion-hub"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   sku                 = "Basic"
 
@@ -84,7 +84,7 @@ resource "azurerm_subnet" "fw_subnet" {
 
 resource "azurerm_public_ip" "fw_pip" {
   name                = "fw-pip"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
@@ -93,7 +93,7 @@ resource "azurerm_public_ip" "fw_pip" {
 # Hub VM
 resource "azurerm_network_interface" "hub_nic" {
   name                = "vm-hub-nic"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
   ip_configuration {
@@ -106,7 +106,7 @@ resource "azurerm_network_interface" "hub_nic" {
 resource "azurerm_linux_virtual_machine" "hub_vm" {
   name                            = "vm-hub"
   resource_group_name             = data.azurerm_resource_group.rg.name
-  location                        = data.azurerm_resource_group.rg.location
+  location                        = var.location
   size                            = "Standard_B2s"
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
@@ -133,7 +133,7 @@ resource "azurerm_linux_virtual_machine" "hub_vm" {
 # =========================================================================
 resource "azurerm_virtual_network" "vnet1" {
   name                = "vnet-1"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   address_space       = ["10.1.0.0/23"]
 }
@@ -147,13 +147,13 @@ resource "azurerm_subnet" "vnet1_subnet" {
 
 resource "azurerm_network_security_group" "vnet1_nsg" {
   name                = "vnet1-snet-1-nsg"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_route_table" "vnet1_rt" {
   name                = "vnet1-snet-1-rt"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
@@ -170,7 +170,7 @@ resource "azurerm_subnet_route_table_association" "vnet1_rt_assoc" {
 # Spoke 1 VM
 resource "azurerm_network_interface" "vnet1_nic" {
   name                = "vm-vnet1-nic"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
   ip_configuration {
@@ -183,7 +183,7 @@ resource "azurerm_network_interface" "vnet1_nic" {
 resource "azurerm_linux_virtual_machine" "vnet1_vm" {
   name                            = "vm-vnet1"
   resource_group_name             = data.azurerm_resource_group.rg.name
-  location                        = data.azurerm_resource_group.rg.location
+  location                        = var.location
   size                            = "Standard_B2s"
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
@@ -209,7 +209,7 @@ resource "azurerm_linux_virtual_machine" "vnet1_vm" {
 # =========================================================================
 resource "azurerm_virtual_network" "vnet2" {
   name                = "vnet-2"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   address_space       = ["10.2.0.0/23"]
 }
@@ -223,13 +223,13 @@ resource "azurerm_subnet" "vnet2_subnet" {
 
 resource "azurerm_network_security_group" "vnet2_nsg" {
   name                = "vnet2-snet-1-nsg"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_route_table" "vnet2_rt" {
   name                = "vnet2-snet-1-rt"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
@@ -246,7 +246,7 @@ resource "azurerm_subnet_route_table_association" "vnet2_rt_assoc" {
 # Spoke 2 VM
 resource "azurerm_network_interface" "vnet2_nic" {
   name                = "vm-vnet2-nic"
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
   ip_configuration {
@@ -259,7 +259,7 @@ resource "azurerm_network_interface" "vnet2_nic" {
 resource "azurerm_linux_virtual_machine" "vnet2_vm" {
   name                            = "vm-vnet2"
   resource_group_name             = data.azurerm_resource_group.rg.name
-  location                        = data.azurerm_resource_group.rg.location
+  location                        = var.location
   size                            = "Standard_B2s"
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
