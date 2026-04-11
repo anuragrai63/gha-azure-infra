@@ -38,11 +38,21 @@ resource "azurerm_route_table" "hub_rt" {
 resource "azurerm_subnet_network_security_group_association" "hub_nsg_assoc" {
   subnet_id                 = azurerm_subnet.hub_subnet.id
   network_security_group_id = azurerm_network_security_group.hub_nsg.id
+  
+  depends_on = [
+    azurerm_subnet.hub_subnet,
+    azurerm_network_security_group.hub_nsg
+  ]
 }
 
 resource "azurerm_subnet_route_table_association" "hub_rt_assoc" {
   subnet_id      = azurerm_subnet.hub_subnet.id
   route_table_id = azurerm_route_table.hub_rt.id
+  
+  depends_on = [
+    azurerm_subnet.hub_subnet,
+    azurerm_route_table.hub_rt
+  ]
 }
 
 # Hub Bastion Resources
@@ -72,6 +82,11 @@ resource "azurerm_bastion_host" "bastion" {
     subnet_id            = azurerm_subnet.bastion_subnet.id
     public_ip_address_id = azurerm_public_ip.bastion_pip.id
   }
+  
+  depends_on = [
+    azurerm_subnet.bastion_subnet,
+    azurerm_public_ip.bastion_pip
+  ]
 }
 
 # Hub Firewall Resources
@@ -101,6 +116,11 @@ resource "azurerm_network_interface" "hub_nic" {
     subnet_id                     = azurerm_subnet.hub_subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+  
+  depends_on = [
+    azurerm_subnet_network_security_group_association.hub_nsg_assoc,
+    azurerm_subnet_route_table_association.hub_rt_assoc
+  ]
 }
 
 resource "azurerm_linux_virtual_machine" "hub_vm" {
@@ -125,6 +145,10 @@ resource "azurerm_linux_virtual_machine" "hub_vm" {
     sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
+  
+  depends_on = [
+    azurerm_network_interface.hub_nic
+  ]
 }
 
 
@@ -140,7 +164,7 @@ resource "azurerm_virtual_network" "vnet1" {
 
 resource "azurerm_subnet" "vnet1_subnet" {
   name                 = "vnet-1-snet-1"
-  resource_group_name  = data.azurerm_resource_group.rg.name
+  resource_group_name  = data.azuragem_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet1.name
   address_prefixes     = ["10.1.1.0/24"]
 }
@@ -160,11 +184,21 @@ resource "azurerm_route_table" "vnet1_rt" {
 resource "azurerm_subnet_network_security_group_association" "vnet1_nsg_assoc" {
   subnet_id                 = azurerm_subnet.vnet1_subnet.id
   network_security_group_id = azurerm_network_security_group.vnet1_nsg.id
+  
+  depends_on = [
+    azurerm_subnet.vnet1_subnet,
+    azurerm_network_security_group.vnet1_nsg
+  ]
 }
 
 resource "azurerm_subnet_route_table_association" "vnet1_rt_assoc" {
   subnet_id      = azurerm_subnet.vnet1_subnet.id
   route_table_id = azurerm_route_table.vnet1_rt.id
+  
+  depends_on = [
+    azurerm_subnet.vnet1_subnet,
+    azurerm_route_table.vnet1_rt
+  ]
 }
 
 # Spoke 1 VM
@@ -178,6 +212,11 @@ resource "azurerm_network_interface" "vnet1_nic" {
     subnet_id                     = azurerm_subnet.vnet1_subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+  
+  depends_on = [
+    azurerm_subnet_network_security_group_association.vnet1_nsg_assoc,
+    azurerm_subnet_route_table_association.vnet1_rt_assoc
+  ]
 }
 
 resource "azurerm_linux_virtual_machine" "vnet1_vm" {
@@ -202,6 +241,10 @@ resource "azurerm_linux_virtual_machine" "vnet1_vm" {
     sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
+  
+  depends_on = [
+    azurerm_network_interface.vnet1_nic
+  ]
 }
 
 # =========================================================================
@@ -236,11 +279,21 @@ resource "azurerm_route_table" "vnet2_rt" {
 resource "azurerm_subnet_network_security_group_association" "vnet2_nsg_assoc" {
   subnet_id                 = azurerm_subnet.vnet2_subnet.id
   network_security_group_id = azurerm_network_security_group.vnet2_nsg.id
+  
+  depends_on = [
+    azurerm_subnet.vnet2_subnet,
+    azurerm_network_security_group.vnet2_nsg
+  ]
 }
 
 resource "azurerm_subnet_route_table_association" "vnet2_rt_assoc" {
   subnet_id      = azurerm_subnet.vnet2_subnet.id
   route_table_id = azurerm_route_table.vnet2_rt.id
+  
+  depends_on = [
+    azurerm_subnet.vnet2_subnet,
+    azurerm_route_table.vnet2_rt
+  ]
 }
 
 # Spoke 2 VM
@@ -254,6 +307,11 @@ resource "azurerm_network_interface" "vnet2_nic" {
     subnet_id                     = azurerm_subnet.vnet2_subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+  
+  depends_on = [
+    azurerm_subnet_network_security_group_association.vnet2_nsg_assoc,
+    azurerm_subnet_route_table_association.vnet2_rt_assoc
+  ]
 }
 
 resource "azurerm_linux_virtual_machine" "vnet2_vm" {
@@ -278,6 +336,10 @@ resource "azurerm_linux_virtual_machine" "vnet2_vm" {
     sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
+  
+  depends_on = [
+    azurerm_network_interface.vnet2_nic
+  ]
 }
 
 # =========================================================================
@@ -292,6 +354,11 @@ resource "azurerm_virtual_network_peering" "hub_to_vnet1" {
   remote_virtual_network_id = azurerm_virtual_network.vnet1.id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  
+  depends_on = [
+    azurerm_virtual_network.hub_vnet,
+    azurerm_virtual_network.vnet1
+  ]
 }
 
 resource "azurerm_virtual_network_peering" "vnet1_to_hub" {
@@ -301,6 +368,11 @@ resource "azurerm_virtual_network_peering" "vnet1_to_hub" {
   remote_virtual_network_id = azurerm_virtual_network.hub_vnet.id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  
+  depends_on = [
+    azurerm_virtual_network.vnet1,
+    azurerm_virtual_network.hub_vnet
+  ]
 }
 
 # Hub <--> Spoke 2
@@ -311,6 +383,11 @@ resource "azurerm_virtual_network_peering" "hub_to_vnet2" {
   remote_virtual_network_id = azurerm_virtual_network.vnet2.id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  
+  depends_on = [
+    azurerm_virtual_network.hub_vnet,
+    azurerm_virtual_network.vnet2
+  ]
 }
 
 resource "azurerm_virtual_network_peering" "vnet2_to_hub" {
@@ -320,4 +397,9 @@ resource "azurerm_virtual_network_peering" "vnet2_to_hub" {
   remote_virtual_network_id = azurerm_virtual_network.hub_vnet.id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  
+  depends_on = [
+    azurerm_virtual_network.vnet2,
+    azurerm_virtual_network.hub_vnet
+  ]
 }
