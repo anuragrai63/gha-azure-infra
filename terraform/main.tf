@@ -120,9 +120,9 @@ resource "azurerm_linux_virtual_machine" "hub_vm" {
   }
 
   source_image_reference {
-    publisher = "Oracle"
-    offer     = "Oracle-Linux"
-    sku       = "8"
+    publisher = "oracle"
+    offer     = "oracle-linux"
+    sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
 }
@@ -197,9 +197,9 @@ resource "azurerm_linux_virtual_machine" "vnet1_vm" {
   }
 
   source_image_reference {
-    publisher = "Oracle"
-    offer     = "Oracle-Linux"
-    sku       = "8"
+    publisher = "oracle"
+    offer     = "oracle-linux"
+    sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
 }
@@ -273,9 +273,9 @@ resource "azurerm_linux_virtual_machine" "vnet2_vm" {
   }
 
   source_image_reference {
-    publisher = "Oracle"
-    offer     = "Oracle-Linux"
-    sku       = "8"
+    publisher = "oracle"
+    offer     = "oracle-linux"
+    sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
 }
