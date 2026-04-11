@@ -120,9 +120,9 @@ resource "azurerm_linux_virtual_machine" "hub_vm" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    publisher = "Oracle"
+    offer     = "Oracle-Linux"
+    sku       = "8"
     version   = "latest"
   }
 }
@@ -197,9 +197,9 @@ resource "azurerm_linux_virtual_machine" "vnet1_vm" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    publisher = "Oracle"
+    offer     = "Oracle-Linux"
+    sku       = "8"
     version   = "latest"
   }
 }
@@ -273,9 +273,9 @@ resource "azurerm_linux_virtual_machine" "vnet2_vm" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    publisher = "Oracle"
+    offer     = "Oracle-Linux"
+    sku       = "8"
     version   = "latest"
   }
 }
