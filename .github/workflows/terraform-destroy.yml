@@ -21,6 +21,7 @@ env:
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
+    environment: Dev
     defaults:
       run:
         shell: bash
