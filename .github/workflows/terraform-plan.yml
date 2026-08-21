@@ -3,7 +3,7 @@ name: "Terraform Plan"
 on:
   pull_request:
     branches:
-      - main
+      - dev
 
 permissions:
   id-token: write
@@ -24,6 +24,7 @@ env:
 jobs:
   terraform-plan:
     runs-on: ubuntu-latest
+    environment: Dev
     defaults:
       run:
         shell: bash
