@@ -20,6 +20,7 @@ resource "azurerm_mysql_flexible_server" "mysql" {
   name                   = "mysql-${random_string.mysql.result}"
   resource_group_name    = data.azurerm_resource_group.rg.name
   location               = data.azurerm_resource_group.rg.location
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.mysql]
 
   administrator_login    = "admin1"
   administrator_password = "A#xanu23"
