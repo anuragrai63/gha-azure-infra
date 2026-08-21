@@ -5,7 +5,7 @@ resource "random_string" "mysql" {
 }
 
 resource "azurerm_private_dns_zone" "mysql" {
-  name                = "mysql.private"
+  name                = "mysql.database.azure.com"
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
