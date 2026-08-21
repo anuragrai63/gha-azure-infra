@@ -1,7 +1,7 @@
 
 
 resource "azurerm_private_dns_zone" "mysql" {
-  name                = "gmvmysql2108.private.database.azure.com"
+  name                = "mysql.database.azure.com"
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
