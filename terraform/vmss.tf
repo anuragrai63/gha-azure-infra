@@ -30,6 +30,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     version   = "latest"
   }
 
+  os_disk {
+    storage_account_type = "Premium_LRS"
+    caching              = "ReadWrite"
+  }
+
   network_interface {
     name    = "vmssnic"
     primary = true
