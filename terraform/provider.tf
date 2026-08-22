@@ -6,12 +6,6 @@
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
-tls = {
-  source = "hashicorp/tls"
-}
-random = {
-   source = "hashicorp/random"
-}
 
   }
 
