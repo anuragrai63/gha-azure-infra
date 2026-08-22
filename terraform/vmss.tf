@@ -1,6 +1,6 @@
-resource "tls_private_key" "ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+data "azurerm_ssh_public_key" "vmss_key" {
+  name                = "azureuser-pub-key"
+  resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
@@ -9,7 +9,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
 
-  sku       = "Standard_B2s"
+  sku       = "Standard_D2s_v3"
   instances = 2
 
   zones = ["1", "2"]
@@ -20,13 +20,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = tls_private_key.ssh.public_key_openssh
+    public_key = data.azurerm_ssh_public_key.vmss_key.public_key
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts-gen2"
+    publisher = "Oracle"
+    offer     = "Oracle-Linux"
+    sku       = "ol810-lvm-gen2"
     version   = "latest"
   }
 
@@ -48,10 +48,14 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   custom_data = base64encode(<<EOF
 #!/bin/bash
-apt-get update -y
-apt-get install apache2 mysql-client -y
-systemctl enable apache2
-systemctl start apache2
+dnf -y update
+dnf -y install httpd mysql
+
+systemctl enable httpd
+systemctl start httpd
+
+systemctl stop firewalld
+systemctl disable firewalld
 EOF
   )
 }
