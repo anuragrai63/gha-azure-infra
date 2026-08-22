@@ -1,6 +1,13 @@
-data "azurerm_ssh_public_key" "vmss_key" {
-  name                = "azureuser-pub-key"
+data "azurerm_resource_group" "rg" {
+  name = "1-495e5ab1-playground-sandbox"
+}
+
+resource "azurerm_ssh_public_key" "azureuser" {
+  name                = "azureuser-pubkey"
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
+
+  public_key = file("${path.module}/azureuser-pub-key.pub")
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
