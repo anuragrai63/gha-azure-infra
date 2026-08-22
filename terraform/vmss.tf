@@ -1,6 +1,10 @@
-data "azurerm_ssh_public_key" "vmss_key" {
-  name                = "azureuser-pub-key"
+
+resource "azurerm_ssh_public_key" "azureuser" {
+  name                = "azureuser-pubkey"
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
+
+  public_key = file("${path.module}/azureuser-pub-key.pub")
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
@@ -20,7 +24,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = data.azurerm_ssh_public_key.vmss_key.public_key
+    public_key = azurerm_ssh_public_key.azureuser.public_key
   }
 
   source_image_reference {
