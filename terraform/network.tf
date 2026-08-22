@@ -29,17 +29,7 @@ resource "azurerm_subnet" "db" {
 
   address_prefixes = ["172.16.30.0/24"]
 
-  delegation {
-    name = "mysql"
-
-    service_delegation {
-      name = "Microsoft.DBforMySQL/flexibleServers"
-
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action"
-      ]
-    }
-  }
+ 
 }
 
 resource "azurerm_subnet" "web" {
