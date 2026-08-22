@@ -1,8 +1,3 @@
-resource "tls_private_key" "ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   name                = "app-vmss"
