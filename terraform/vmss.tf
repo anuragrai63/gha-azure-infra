@@ -47,6 +47,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
       name      = "internal"
       primary   = true
       subnet_id = azurerm_subnet.app.id
+
     }
   }
 
