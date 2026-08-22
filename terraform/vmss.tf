@@ -1,6 +1,3 @@
-data "azurerm_resource_group" "rg" {
-  name = "1-495e5ab1-playground-sandbox"
-}
 
 resource "azurerm_ssh_public_key" "azureuser" {
   name                = "azureuser-pubkey"
@@ -27,7 +24,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = data.azurerm_ssh_public_key.vmss_key.public_key
+    public_key = azurerm_ssh_public_key.azureuser.public_key
   }
 
   source_image_reference {
